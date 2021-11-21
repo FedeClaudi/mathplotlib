@@ -11,7 +11,7 @@ A template to create repos supporting a python package
 ## distributions
 - [ ] beta
 
-## curves
+## function
 - [ ] from equation
 - [ ] from python func
 

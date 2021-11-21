@@ -1,37 +1,42 @@
 import matplotlib.pyplot as plt
-from dataclasses import dataclass
 
-from mathplotlib.style import get_style
-
-
-@dataclass
-class Line:
-    slope: float
-    intercept: float
+from mathplotlib.base import BaseElement
+from mathplotlib.style import Style
 
 
-@dataclass
-class Circle:
-    x: float = 0
-    y: float = 0
-    r: float = 1.0
-    filled: bool = True
-    style: str = "cartoon"  # or minimal or base
+# class Line:
+#     slope: float
+#     intercept: float
+
+
+class Circle(BaseElement):
+    def __init__(
+        self,
+        x: float = 0,
+        y: float = 0,
+        r: float = 1.0,
+        nolegend: bool = False,
+        **kwargs,
+    ):
+        super().__init__("Circle", nolegend=nolegend)
+
+        self.x, self.y, self.r = x, y, r
+        self.style = Style(**kwargs)
 
     def __repr__(self) -> str:
-        return f"Circle @ ({self.x:.2f}, {self.y:.2f}) - style: {self.style}"
+        return f"Circle @ ({self.x:.2f}, {self.y:.2f}) - style: '{self.style.style_name}'"
 
     def __draw__(self, ax: plt.Axes) -> plt.Circle:
-        style = get_style(self.style)
         ax.add_patch(
             plt.Circle(
                 (self.x, self.y),
                 self.r,
-                facecolor=style.face_color,
-                edgecolor=style.line_color,
-                linewidth=style.line_weight,
-                fill=self.filled if style.face_alpha > 0 else False,
-            )
+                facecolor=self.style.facecolor,
+                edgecolor=self.style.linecolor,
+                linewidth=self.style.linewidth,
+                fill=self.style.filled if self.style.facealpha > 0 else False,
+            ),
+            label=self.legend,
         )
 
 

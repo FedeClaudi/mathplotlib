@@ -1,1 +1,1 @@
-from mathplotlib.figure import Figure
+from mathplotlib.figure import Figure, show
