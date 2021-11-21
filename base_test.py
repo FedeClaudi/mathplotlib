@@ -42,6 +42,3 @@ print(fig)
 
 
 fig.show()
-
-
-# TODO smart finding XY range for axes

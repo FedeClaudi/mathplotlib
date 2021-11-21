@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
-import seaborn as sns
 from typing import Tuple, List, Generator
 from loguru import logger
+
+from myterial import grey_darker
 
 from mathplotlib.base import BaseElement
 
@@ -10,7 +11,6 @@ class Canvas:
     def __init__(self, ax: plt.Axes, axes_params: dict = dict()):
 
         self.ax = ax
-        self.style_ax()
         ax.set(**axes_params)
 
         # initialize empty actors
@@ -29,15 +29,35 @@ class Canvas:
             self.actors.append(actor)
 
     def style_ax(self):
-        # set equal aspect
-        self.ax.axis("equal")
+        # move spines to center
+        self.ax.spines["bottom"].set_position(("data", 0))
+        self.ax.spines["left"].set_position(("data", 0))
 
-        # clean axis
-        sns.despine(ax=self.ax, offset=0, trim=False, left=False, right=True)
+        # draw axes as arrows
+        self.ax.plot(
+            1.005,
+            0,
+            ">",
+            color=grey_darker,
+            alpha=1,
+            zorder=100,
+            transform=self.ax.get_yaxis_transform(),
+            clip_on=False,
+        )
+        self.ax.plot(
+            0,
+            1.005,
+            "^",
+            color=grey_darker,
+            alpha=1,
+            zorder=100,
+            transform=self.ax.get_xaxis_transform(),
+            clip_on=False,
+        )
 
     def draw(self):
         for actor in self.actors:
-            actor.__draw__(self.ax)
+            actor.draw(self.ax)
 
 
 class Figure:
@@ -72,6 +92,7 @@ class Figure:
             canvas.draw()
             if legend:
                 canvas.ax.legend()
+            canvas.style_ax()
         plt.show()
 
 

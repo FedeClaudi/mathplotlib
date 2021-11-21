@@ -9,18 +9,21 @@ A template to create repos supporting a python package
 
 
 ## distributions
-- [ ] beta
+- [x] normal
+- [x] beta
+- [x] exp
 
 ## function
-- [ ] from equation
-- [ ] from python func
+- [x] from equation
+- [x] from python func
 
 
 ## styling
-- [ ] better, cleaner styling
-- [ ] cleaner code to get/apply style
+- [x] better, cleaner styling
+- [x] cleaner code to get/apply style
 - [ ] more personalizatoin
+- [ ] fancy legends
 
 ## figure
-- [ ] canvas -> single axis
-- [ ] figure?
+- [x] canvas -> single axis
+- [x] figure?

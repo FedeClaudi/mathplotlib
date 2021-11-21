@@ -13,7 +13,6 @@ class StatisticalDistribution(BaseElement):
     """
 
     params: dict = dict()
-    style: Style = Style()
 
     def __init__(
         self, distribution: stats.rv_continuous, nolegend: bool = False
@@ -43,32 +42,15 @@ class StatisticalDistribution(BaseElement):
         params_str = ", ".join(f"{k}:{v:.2f}" for k, v in self.params.items())
         return f"{dname}: ({params_str})"
 
-    def __draw__(self, ax: plt.Axes):
+    def draw(self, ax: plt.Axes):
         # compute x range
-        x_range = np.linspace(self.xmin, self.xmax, 200)
+        x = np.linspace(self.xmin, self.xmax, 200)
 
         # compute y range
-        y = self.distribution.pdf(x_range, *self.params.values())
+        y = self.distribution.pdf(x, *self.params.values())
 
-        # draw colored area
-        if self.style.filled:
-            ax.fill_between(
-                x_range,
-                y,
-                color=self.style.facecolor,
-                alpha=self.style.facealpha,
-            )
-
-        # draw line
-        if self.style.outlined:
-            ax.plot(x_range, y, color="k", lw=self.style.linewidth + 2)
-        ax.plot(
-            x_range,
-            y,
-            color=self.style.linecolor,
-            lw=self.style.linewidth,
-            label=self.legend,
-        )
+        # draw
+        self._draw_curve(x, y, ax)
 
 
 class Normal(StatisticalDistribution):

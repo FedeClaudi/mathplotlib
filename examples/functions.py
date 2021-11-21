@@ -16,7 +16,7 @@ from math import sin, pi
 
 show(
     functions.Function(sin, xmax=2 * pi),
-    functions.Function(
+    functions.Function(  # dotted interval
         "2sin(x)",
         xmin=0,
         xmax=1,
@@ -25,15 +25,16 @@ show(
         linewidth=3,
         nolegend=True,
     ),
-    functions.Function(
+    functions.Function(  # solid interval
         "2sin(x)",
         xmin=1,
         xmax=2 * pi - 1,
         style="minimal",
         linewidth=3,
         linecolor=blue_dark,
+        outlined=True,
     ),
-    functions.Function(
+    functions.Function(  # dotted interval
         "2sin(x)",
         xmin=2 * pi - 1,
         xmax=2 * pi,

@@ -64,22 +64,11 @@ class Function(BaseElement):
     def __repr__(self) -> str:
         return f'Function with function: {self.func.__name__} - style "{self.style.style_name}"'
 
-    def __draw__(self, ax: plt.Axes):
+    def draw(self, ax: plt.Axes):
+        """
+            Applies the mathematical function to a set of points
+            and draws the resulting curve
+        """
         x = np.linspace(self.xmin, self.xmax, 200)
         y = [self.func(x_t) for x_t in x]
-
-        # draw colored area
-        if self.style.filled:
-            ax.fill_between(
-                x, y, color=self.style.facecolor, alpha=self.style.facealpha,
-            )
-
-        # draw line
-        ax.plot(
-            x,
-            y,
-            color=self.style.linecolor,
-            lw=self.style.linewidth,
-            ls=self.style.linestyle,
-            label=self.legend,
-        )
+        self._draw_curve(x, y, ax)

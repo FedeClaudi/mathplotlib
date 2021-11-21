@@ -1,0 +1,35 @@
+axes.linewidth: 2
+axes.edgecolor: 424242
+axes.facecolor: ffffff
+axes.ymargin: 0.1
+axes.spines.bottom: True
+axes.spines.left: True
+axes.spines.right: False
+axes.spines.top: False
+axes.autolimit_mode: round_numbers
+axes.grid: False
+
+xaxis.labellocation: right
+
+yaxis.labellocation: top
+
+grid.color: black
+grid.linewidth: .1
+
+xtick.color: 424242
+xtick.bottom: True
+xtick.top: False
+xtick.direction: out
+xtick.major.size: 5
+xtick.major.width: 1
+xtick.minor.size: 3
+xtick.minor.width: .5
+xtick.minor.visible: True
+
+ytick.color: 424242
+ytick.left: True
+ytick.right: False
+ytick.direction: out
+ytick.major.size: 5
+ytick.major.width: 1
+ytick.minor.size: 3

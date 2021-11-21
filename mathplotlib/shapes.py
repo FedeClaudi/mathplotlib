@@ -26,7 +26,7 @@ class Circle(BaseElement):
     def __repr__(self) -> str:
         return f"Circle @ ({self.x:.2f}, {self.y:.2f}) - style: '{self.style.style_name}'"
 
-    def __draw__(self, ax: plt.Axes) -> plt.Circle:
+    def draw(self, ax: plt.Axes) -> plt.Circle:
         ax.add_patch(
             plt.Circle(
                 (self.x, self.y),
@@ -35,8 +35,8 @@ class Circle(BaseElement):
                 edgecolor=self.style.linecolor,
                 linewidth=self.style.linewidth,
                 fill=self.style.filled if self.style.facealpha > 0 else False,
+                label=self.legend,
             ),
-            label=self.legend,
         )
 
 
