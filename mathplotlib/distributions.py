@@ -12,6 +12,7 @@ class StatisticalDistribution(BaseElement):
         on scipy.stats distributions
     """
 
+    label_angle_factor: float = 0.75
     params: dict = dict()
 
     def __init__(
@@ -19,7 +20,6 @@ class StatisticalDistribution(BaseElement):
     ):
         super().__init__(nolegend=nolegend)
         self.distribution = distribution
-        self.y_func = self.distribution.pdf
 
     @property
     def xmin(self) -> float:
@@ -42,6 +42,9 @@ class StatisticalDistribution(BaseElement):
         dname = self.distribution.name.capitalize()
         params_str = ", ".join(f"{k}:{v:.2f}" for k, v in self.params.items())
         return f"{dname}: ({params_str})"
+
+    def y_func(self, x: float) -> float:
+        return self.distribution.pdf(x, *self.params.values())
 
     def draw(self, ax: plt.Axes):
         # compute x range

@@ -11,6 +11,7 @@ class BaseElement:
         Represents a base element (drawn object)
     """
 
+    label_angle_factor: float = 1
     style: Style = Style()
 
     def __init__(self, name: str = "base_element", nolegend: bool = False):
@@ -58,7 +59,7 @@ class BaseElement:
             artist.set_path_effects(
                 [
                     path_effects.withStroke(
-                        linewidth=lw + self.style.strokewwidth,
+                        linewidth=lw + self.style.strokewidth,
                         foreground=self.style.strokecolor,
                     ),
                 ]

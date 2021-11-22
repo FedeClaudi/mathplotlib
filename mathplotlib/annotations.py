@@ -2,13 +2,17 @@ import matplotlib.pyplot as plt
 
 from mathplotlib.base import BaseElement
 from mathplotlib.style import Style
-from mathplotlib.utils import angle
+from mathplotlib.utils import angle, update_with_default
 
 
 class Text(BaseElement):
     """
         Draws a bit of text
     """
+
+    on_curve_params = dict(
+        backgroundcolor="white", horizontal_alignment="center",
+    )
 
     def __init__(
         self,
@@ -42,6 +46,7 @@ class Text(BaseElement):
             ha=self.horizontal_alignment,
             va=self.vertical_alignment,
             color=self.style.textcolor,
+            backgroundcolor=self.style.backgroundcolor,
         )
 
         if self.style.outlined:
@@ -62,11 +67,12 @@ class Text(BaseElement):
         # compute the angle of the curve at the point
         x1, x2 = at - 0.2, at + 0.2
         y1, y2 = y_func(x1), y_func(x2)
-        curve_angle = angle(x1, x2, y1, y2)
-        rotation = kwargs.pop("rotation", curve_angle - 10)
+        curve_angle = angle(x1, x2, y1, y2) * curve.label_angle_factor
+        rotation = kwargs.pop("rotation", curve_angle)
 
         # get the color based on the curve
         color = kwargs.pop("textcolor", curve.style.linecolor)
+        kwargs = update_with_default(kwargs, Text.on_curve_params)
 
         return Text(
             at, y_func(at), text, rotation=rotation, textcolor=color, **kwargs

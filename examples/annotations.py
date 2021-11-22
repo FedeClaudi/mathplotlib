@@ -42,16 +42,16 @@ text_on_sine = annotations.Text.on_curve(
     at=2,
     outlined=True,
     strokecolor="white",
-    strokewidth=20,
+    strokewidth=5,
     size=12,
 )
 text_on_cosine = annotations.Text.on_curve(
     cosine,
     "cosine",
-    at=2,
+    at=1,
     outlined=True,
     strokecolor="white",
-    strokewidth=20,
+    strokewidth=5,
     size=12,
 )
 

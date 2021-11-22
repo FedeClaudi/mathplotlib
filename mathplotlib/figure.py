@@ -4,6 +4,7 @@ from typing import Tuple, List, Generator
 from myterial import grey_darker
 
 from mathplotlib.base import BaseElement
+from mathplotlib.utils import update_with_default
 
 
 class Canvas:
@@ -60,6 +61,10 @@ class Canvas:
 
 
 class Figure:
+    default_legend_params = dict(
+        edgecolor="None", ncol=2, loc="upper right", borderaxespad=0,
+    )
+
     def __init__(
         self,
         layout: str = "A",
@@ -84,26 +89,29 @@ class Figure:
     def add_to(self, canvas_name: str, *actors: BaseElement):
         self.canvases[canvas_name].add(*actors)
 
-    def show(self, legend: bool = False):
+    def show(self, legend: bool = False, legend_kwargs: dict = dict()):
         """
             Draws all actors and styles the axes
         """
+        legend_kwargs = update_with_default(
+            legend_kwargs, self.default_legend_params
+        )
         for canvas in self.canvases.values():
             canvas.draw()
 
             # create legend and style ax
             if legend:
-                canvas.ax.legend(
-                    edgecolor="None",
-                    ncol=2,
-                    loc="upper right",
-                    borderaxespad=0,
-                )
+                canvas.ax.legend(**legend_kwargs)
             canvas.style_ax()
         plt.show()
 
 
-def show(*actors: BaseElement, legend: bool = False, **kwargs):
+def show(
+    *actors: BaseElement,
+    legend: bool = False,
+    legend_kwargs: dict = dict(),
+    **kwargs,
+):
     fig = Figure(layout="A", **kwargs)
     fig.add_to("A", *actors)
-    fig.show(legend=legend)
+    fig.show(legend=legend, legend_kwargs=legend_kwargs)

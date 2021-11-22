@@ -39,6 +39,8 @@ def parse(expr: str) -> Callable:
 
 
 class Function(BaseElement):
+    label_angle_factor: float = 1.25
+
     def __init__(
         self,
         func: Union[Callable, str],
