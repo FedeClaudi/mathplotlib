@@ -19,7 +19,7 @@ cartoon_defaults = dict(
     textcolor="k",
     filled=True,
     outlined=False,
-    zorder=1,
+    zorder=5,
 )
 
 minimal_defaults = dict(
@@ -36,7 +36,7 @@ minimal_defaults = dict(
     textcolor="k",
     filled=False,
     outlined=False,
-    zorder=1,
+    zorder=5,
 )
 
 
@@ -54,7 +54,7 @@ class Style:
     backgroundcolor: Optional[str] = None  # for Text object
     filled: bool = False  # shade inside of shape
     outlined: bool = False  # add colored outline
-    zorder: int = 1  # Z stack order
+    zorder: int = 5  # Z stack order
 
     def __init__(self, style: str = "cartoon", **kwargs: dict):
         """

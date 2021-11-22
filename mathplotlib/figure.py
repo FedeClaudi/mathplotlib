@@ -8,6 +8,10 @@ from mathplotlib.utils import update_with_default
 
 
 class Canvas:
+    default_legend_params = dict(
+        edgecolor="None", ncol=2, loc="upper right", borderaxespad=0,
+    )
+
     def __init__(
         self,
         ax: plt.Axes,
@@ -20,6 +24,7 @@ class Canvas:
 
         # initialize empty actors
         self.actors: List = []
+        self.drawn: bool = False
 
     def __repr__(self) -> str:
         return (
@@ -66,16 +71,20 @@ class Canvas:
         # set parameters
         self.ax.set(**self.axes_params)
 
+    def make_legend(self, **legend_kwargs):
+        legend_kwargs = update_with_default(
+            legend_kwargs, self.default_legend_params
+        )
+        self.ax.legend(**legend_kwargs)
+
     def draw(self):
-        for actor in self.actors:
-            actor.draw(self.ax)
+        if not self.drawn:
+            for actor in self.actors:
+                actor.draw(self.ax)
+            self.drawn = True
 
 
 class Figure:
-    default_legend_params = dict(
-        edgecolor="None", ncol=2, loc="upper right", borderaxespad=0,
-    )
-
     def __init__(
         self,
         layout: str = "A",
@@ -103,19 +112,23 @@ class Figure:
     def add_to(self, canvas_name: str, *actors: BaseElement):
         self.canvases[canvas_name].add(*actors)
 
+    def draw(self):
+        """
+            Just draws all canvases without showing
+        """
+        for canvas in self.canvases.values():
+            canvas.draw()
+
     def show(self, legend: bool = False, legend_kwargs: dict = dict()):
         """
             Draws all actors and styles the axes
         """
-        legend_kwargs = update_with_default(
-            legend_kwargs, self.default_legend_params
-        )
-        for canvas in self.canvases.values():
-            canvas.draw()
+        self.draw()
 
+        for canvas in self.canvases.values():
             # create legend and style ax
             if legend:
-                canvas.ax.legend(**legend_kwargs)
+                canvas.make_legend(**legend_kwargs)
             canvas.style_ax()
         plt.show()
 

@@ -59,6 +59,7 @@ class Text(BaseElement):
                 alpha=0.95,
             ),
             weight=self.style.fontweight,
+            zorder=self.style.zorder,
         )
 
         if self.style.backgroundcolor is None:
@@ -150,6 +151,7 @@ class Annotation(BaseElement):
             xytext=(self.x + self.x_shift, self.y + self.y_shift),
             textcoords=self.textcoords,
             arrowprops=self.arrow_params,
+            zorder=self.style.zorder,
         )
 
         # add additional arrows

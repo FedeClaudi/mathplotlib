@@ -11,7 +11,7 @@ from math import pi
     This example shows how to draw some annotations on a plot.
 """
 
-# draw two line
+# draw two lines
 sine = functions.Function(
     "sin(x)",
     xmax=2 * pi,
@@ -19,49 +19,41 @@ sine = functions.Function(
     linecolor=blue_dark,
     facecolor=blue_dark,
     facealpha=0.2,
-)
+).annotate(
+    at=1
+)  # the annotate method draws the function over the plotted line
+
 cosine = functions.Function(
     "cos(x) - 1", xmax=2 * pi, outlined=True, linecolor=pink_dark, filled=False
-)
+).annotate(at=1, backgroundcolor="w")
 
-# draw some text
+# add some text
 text = annotations.Text(
     1,
     0.2,
-    "base text",
+    "shaded area",
     horizontal_alignment="left",
     size=12,
     outlined=True,
     strokecolor="white",
 )
 
-# draw some text at a point along the sine and cosine curves
-text_on_sine = annotations.Text.on_curve(sine, "sine", at=1,)
-text_on_cosine = annotations.Text.on_curve(cosine, "cosine", at=1,)
-
-
-# draw some annotations
+# draw some annotations arrows pointing at two different points.
 annot = annotations.Annotation(
     pi,
     0,
     "zero points",
     x_shift=0.25,
     y_shift=+0.5,
-    additional_points=[(6.28, 0)],
+    additional_points=[(6.28, 0)],  # coordinates of additional points
 )
 
+# draw an annotation arrow pointing at the cosine curve
 annot_at_point = annotations.Annotation.at_curve(
     cosine, "A point on the cosine", at=3, y_shift=-0.5, size="large"
 )
 
 
 show(
-    sine,
-    cosine,
-    text,
-    text_on_sine,
-    text_on_cosine,
-    annot,
-    annot_at_point,
-    axes_equal=True,
+    sine, cosine, text, annot, annot_at_point, axes_equal=True,
 )

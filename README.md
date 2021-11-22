@@ -38,6 +38,7 @@ A template to create repos supporting a python package
 - [x] Bayes
 - [ ] animations
 - [ ] axes grid rotation with affine2D
+- [ ] mathplotlib summary figure
 
 ## Animations
 - [ ] base elements

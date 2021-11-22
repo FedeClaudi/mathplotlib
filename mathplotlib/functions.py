@@ -11,8 +11,7 @@ from sympy.parsing.sympy_parser import (
 )
 from sympy.utilities.lambdify import lambdify
 
-from mathplotlib.base import BaseElement
-from mathplotlib.style import Style
+import mathplotlib as mhplt
 
 
 def parse(expr: str) -> Callable:
@@ -38,7 +37,7 @@ def parse(expr: str) -> Callable:
     return lambdify(*expression.free_symbols, expression)
 
 
-class Function(BaseElement):
+class Function(mhplt.base.BaseElement):
     def __init__(
         self,
         func: Union[Callable, str],
@@ -59,10 +58,10 @@ class Function(BaseElement):
         self.y_func = parse(func) if isinstance(func, str) else func
         self.xmin = xmin
         self.xmax = xmax
-        self.style = Style(**kwargs)
+        self.style = mhplt.style.Style(**kwargs)
 
     def __repr__(self) -> str:
-        return f'Function with function: {self.y_func.__name__} - style "{self.style.style_name}"'
+        return f'Function with function: "{self.name}" - style "{self.style.style_name}"'
 
     def draw(self, ax: plt.Axes):
         """

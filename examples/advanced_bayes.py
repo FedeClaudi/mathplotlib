@@ -7,7 +7,7 @@ from math import sqrt
 # import matplotlib.pyplot as plt
 
 from mathplotlib import show, distributions
-from mathplotlib.annotations import Text, Annotation
+from mathplotlib.annotations import Text
 
 from myterial import (
     green_lighter,
@@ -16,7 +16,6 @@ from myterial import (
     green,
     indigo,
     teal,
-    grey_dark,
 )
 
 # plt.rcParams['text.usetex'] = True
@@ -36,16 +35,6 @@ prior = distributions.Normal(
 prior_label = Text.on_curve(
     prior, "prior", at=0.6, size=16, backgroundcolor=None
 )
-prior_annot = Annotation.at_curve(
-    prior,
-    "$P(A)$",
-    at=prior_mu - 0.2,
-    x_shift=-0.25,
-    y_shift=0.45,
-    size=12,
-    textcolor=grey_dark,
-    arrow_params=dict(connectionstyle="arc3,rad=0.2"),
-)
 
 # Likelihoood
 likelihoood = distributions.Normal(
@@ -57,15 +46,6 @@ likelihoood = distributions.Normal(
 )
 likelihood_label = Text.on_curve(
     likelihoood, "likelihoood", at=3.2, size=16, backgroundcolor=None
-)
-likelihood_annot = Annotation.at_curve(
-    likelihoood,
-    "$P(B|A)$",
-    at=like_mu + 0.1,
-    x_shift=0.15,
-    y_shift=0.3,
-    size=12,
-    textcolor=grey_dark,
 )
 
 # posterior
@@ -83,16 +63,6 @@ posterior = distributions.Normal(
 )
 posterior_label = Text.on_curve(
     posterior, "posterior", at=2.2, size=16, backgroundcolor=None
-)
-posterior_annot = Annotation.at_curve(
-    posterior,
-    "$P(A|B)$",
-    at=mu - 0.1,
-    x_shift=-0.8,
-    y_shift=-0.3,
-    size=12,
-    textcolor=grey_dark,
-    arrow_params=dict(connectionstyle="arc3,rad=0.2"),
 )
 
 
@@ -123,23 +93,19 @@ post_std = Text(
     fontweight="bold",
 )
 
-# TODO add latex annotations
 
 # ----------------------------------- plot ----------------------------------- #
 show(
     prior,
     prior_label,
-    prior_annot,
     likelihoood,
     likelihood_label,
-    likelihood_annot,
     posterior,
     posterior_label,
-    posterior_annot,
     norm_eq,
     post_mean,
     post_std,
     axes_equal=True,
-    figsize=(18, 12),
+    figsize=(10, 8),
     axes_params=dict(xlabel="x value", ylabel="probability"),
 )

@@ -2,11 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
 
-from mathplotlib.base import BaseElement
-from mathplotlib.style import Style
+import mathplotlib as mhplt
 
 
-class StatisticalDistribution(BaseElement):
+class StatisticalDistribution(mhplt.base.BaseElement):
     """
         Baseclass do draw a statistical distribution based
         on scipy.stats distributions
@@ -74,7 +73,7 @@ class Normal(StatisticalDistribution):
         self.params = dict(mean=mean, sigma=sigma)
 
         # set style
-        self.style = Style(**kwargs)
+        self.style = mhplt.style.Style(**kwargs)
 
     def __repr__(self) -> str:
         return f"Normal distribution @ {self.mean:.2f}, std:{self.sigma:.2f} - style: '{self.style.style_name}'"
@@ -94,7 +93,7 @@ class Beta(StatisticalDistribution):
         self.params = dict(a=a, b=b)
 
         # set style
-        self.style = Style(**kwargs)
+        self.style = mhplt.style.Style(**kwargs)
 
     def __repr__(self) -> str:
         return f"Beta distribution (shape params: {self.a:.2f}, {self.b:.2f}) - style: '{self.style.style_name}'"
@@ -118,7 +117,7 @@ class Exp(StatisticalDistribution):
         self.params = dict(loc=loc, scale=scale)
 
         # set style
-        self.style = Style(**kwargs)
+        self.style = mhplt.style.Style(**kwargs)
 
     def __repr__(self) -> str:
         return f"Exponential distribution (loc: {self.loc:.2f}, scale: {self.scale:.2f}) - style: '{self.style.style_name}'"

@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
-from typing import Union
+from typing import Union, Optional
 import numpy as np
 
 from mathplotlib.style import Style
+import mathplotlib
 
 
 class BaseElement:
@@ -12,6 +15,7 @@ class BaseElement:
     """
 
     style: Style = Style()
+    annotation: Optional[mathplotlib.annotations.Text] = None
 
     def __init__(self, name: str = "base_element", nolegend: bool = False):
         self.name = name if not nolegend else ""
@@ -42,12 +46,17 @@ class BaseElement:
             label=self.legend,
             ls=self.style.linestyle,
             clip_on=True,
+            zorder=self.style.zorder,
         )
 
         # apply effects
         if self.style.outlined:
             for line in lines:
                 self.outline(line)
+
+        # draw annotation
+        if self.annotation is not None:
+            self.annotation.draw(ax)
 
     def outline(self, *artists: plt.Artist, lw: float = None):
         """
@@ -63,3 +72,12 @@ class BaseElement:
                     ),
                 ]
             )
+
+    def annotate(self, at: float = 1, **kwargs) -> BaseElement:
+        """
+            Uses a Text annotation to draw its own legend on itself
+        """
+        self.annotation = mathplotlib.annotations.Text.on_curve(
+            self, self.legend, at=at, **kwargs
+        )
+        return self
