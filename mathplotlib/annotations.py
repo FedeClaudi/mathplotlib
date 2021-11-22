@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 from typing import List, Tuple
 
-from mathplotlib.base import BaseElement
+from mathplotlib.base import BaseElement, Curve2D
 from mathplotlib.style import Style
-from mathplotlib.utils import angle, update_with_default
+from mathplotlib.utils import update_with_default
 
 
 class Text(BaseElement):
@@ -69,7 +69,7 @@ class Text(BaseElement):
             self.outline(text_actor, lw=2)
 
     @classmethod
-    def on_curve(cls, curve: BaseElement, text: str, at: float = 1, **kwargs):
+    def on_curve(cls, curve: Curve2D, text: str, at: float = 1, **kwargs):
         """
             Adds a text on a curve at a given X position along it
         """
@@ -81,9 +81,7 @@ class Text(BaseElement):
             )
 
         # compute the angle of the curve at the point
-        x1, x2 = at - 0.2, at + 0.2
-        y1, y2 = y_func(x1), y_func(x2)
-        curve_angle = angle(x1, x2, y1, y2)
+        curve_angle = curve.angle_at_point(at)
         rotation = kwargs.pop("rotation", curve_angle)
 
         # get the color based on the curve

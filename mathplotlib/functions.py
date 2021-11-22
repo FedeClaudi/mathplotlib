@@ -37,7 +37,7 @@ def parse(expr: str) -> Callable:
     return lambdify(*expression.free_symbols, expression)
 
 
-class Function(mhplt.base.BaseElement):
+class Function(mhplt.base.Curve2D):
     def __init__(
         self,
         func: Union[Callable, str],

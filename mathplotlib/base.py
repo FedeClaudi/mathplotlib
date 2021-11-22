@@ -7,6 +7,7 @@ import numpy as np
 
 from mathplotlib.style import Style
 import mathplotlib
+from mathplotlib.utils import angle
 
 
 class BaseElement:
@@ -23,6 +24,27 @@ class BaseElement:
     @property
     def legend(self) -> str:
         return self.name
+
+    def outline(self, *artists: plt.Artist, lw: float = None):
+        """
+            Applies an outline to a matplotlib artist with path effects
+        """
+        for artist in artists:
+            lw = lw or artist.get_linewidth()
+            artist.set_path_effects(
+                [
+                    path_effects.withStroke(
+                        linewidth=lw + self.style.strokewidth,
+                        foreground=self.style.strokecolor,
+                    ),
+                ]
+            )
+
+
+class Curve2D(BaseElement):
+    """
+        Methods to draw curves on the 2D plane
+    """
 
     def _draw_curve(
         self, x: np.ndarray, y: Union[np.ndarray, list], ax: plt.Axes
@@ -47,6 +69,7 @@ class BaseElement:
             ls=self.style.linestyle,
             clip_on=True,
             zorder=self.style.zorder,
+            antialiased=True,
         )
 
         # apply effects
@@ -58,20 +81,13 @@ class BaseElement:
         if self.annotation is not None:
             self.annotation.draw(ax)
 
-    def outline(self, *artists: plt.Artist, lw: float = None):
+    def angle_at_point(self, at: float = 1) -> float:
         """
-            Applies an outline to a matplotlib artist with path effects
+            Computes the angle of the curve at a point
         """
-        for artist in artists:
-            lw = lw or artist.get_linewidth()
-            artist.set_path_effects(
-                [
-                    path_effects.withStroke(
-                        linewidth=lw + self.style.strokewidth,
-                        foreground=self.style.strokecolor,
-                    ),
-                ]
-            )
+        x1, x2 = at - 0.2, at + 0.2
+        y1, y2 = self.y_func(x1), self.y_func(x2)  # type: ignore
+        return angle(x1, x2, y1, y2)
 
     def annotate(self, at: float = 1, **kwargs) -> BaseElement:
         """

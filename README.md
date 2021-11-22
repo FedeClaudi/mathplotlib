@@ -32,9 +32,10 @@ A template to create repos supporting a python package
 - [ ] vectors
 - [ ] vector fields
 - [ ] streamlines/phaseplot
+- [ ] trim object by clipping with anothre
 
 ## Examples
-- [ ] figure layout
+- [x] figure layout
 - [x] Bayes
 - [ ] animations
 - [ ] axes grid rotation with affine2D

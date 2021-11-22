@@ -5,7 +5,7 @@ from scipy import stats
 import mathplotlib as mhplt
 
 
-class StatisticalDistribution(mhplt.base.BaseElement):
+class StatisticalDistribution(mhplt.base.Curve2D):
     """
         Baseclass do draw a statistical distribution based
         on scipy.stats distributions

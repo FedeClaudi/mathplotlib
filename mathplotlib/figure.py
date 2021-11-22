@@ -137,8 +137,10 @@ def show(
     *actors: BaseElement,
     legend: bool = False,
     legend_kwargs: dict = dict(),
+    axes_equal: bool = False,
     **kwargs,
-):
-    fig = Figure(layout="A", **kwargs)
+) -> Figure:
+    fig = Figure(layout="A", axes_equal=axes_equal, **kwargs)
     fig.add_to("A", *actors)
     fig.show(legend=legend, legend_kwargs=legend_kwargs)
+    return fig
