@@ -43,6 +43,8 @@ show(
         linewidth=3,
         nolegend=True,
     ),
-    axes_params=dict(xlabel="Angle", ylabel="Value"),
+    axes_params=dict(
+        xlabel="Angle", ylabel="Value", xlim=[0, 2 * pi], yticks=[-1, 1]
+    ),
     legend=True,
 )

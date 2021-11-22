@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 from typing import Tuple, List, Generator
-from loguru import logger
 
 from myterial import grey_darker
 
@@ -68,8 +67,6 @@ class Figure:
         axes_params: dict = dict(),
         **kwargs,
     ):
-        logger.debug(f"Creating figure with layout: {layout}")
-        logger.debug(f"Axes parameters: {axes_params}")
         self.figure = plt.figure(figsize=figsize, **kwargs)
 
         self.canvases = dict()
@@ -88,10 +85,20 @@ class Figure:
         self.canvases[canvas_name].add(*actors)
 
     def show(self, legend: bool = False):
+        """
+            Draws all actors and styles the axes
+        """
         for canvas in self.canvases.values():
             canvas.draw()
+
+            # create legend and style ax
             if legend:
-                canvas.ax.legend()
+                canvas.ax.legend(
+                    edgecolor="None",
+                    ncol=2,
+                    loc="upper right",
+                    borderaxespad=0,
+                )
             canvas.style_ax()
         plt.show()
 

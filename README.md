@@ -22,7 +22,14 @@ A template to create repos supporting a python package
 - [x] better, cleaner styling
 - [x] cleaner code to get/apply style
 - [ ] more personalizatoin
-- [ ] fancy legends
+- [x] fancy legends
+- [x] annotation
+
+## Maths
+- [ ] vectors
+- [ ] vector fields
+- [ ] streamlines/phaseplot
+
 
 ## figure
 - [x] canvas -> single axis

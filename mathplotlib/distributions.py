@@ -19,6 +19,7 @@ class StatisticalDistribution(BaseElement):
     ):
         super().__init__(nolegend=nolegend)
         self.distribution = distribution
+        self.y_func = self.distribution.pdf
 
     @property
     def xmin(self) -> float:

@@ -10,6 +10,9 @@ cartoon_defaults = dict(
     linecolor=grey_darker,  # line
     linewidth=2,
     linestyle="-",
+    strokecolor="k",
+    strokewwidth=2,
+    textcolor="k",
     filled=True,
     outlined=False,
 )
@@ -20,18 +23,23 @@ minimal_defaults = dict(
     linecolor=black,  # line
     linewidth=1,
     linestyle="-",
+    strokecolor="k",
+    strokewwidth=2,
+    textcolor="k",
     filled=False,
     outlined=False,
 )
 
 
 class Style:
-
     facecolor: str = blue_purple
     facealpha: float = 1
     linecolor: str = black
     linewidth: float = 1
     linestyle: str = "-"
+    strokecolor: str = "k"
+    strokewwidth: int = 2
+    textcolor: str = "k"
     filled: bool = False
     outlined: bool = False
 

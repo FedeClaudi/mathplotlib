@@ -56,13 +56,13 @@ class Function(BaseElement):
         name = func if isinstance(func, str) else func.__name__
         super().__init__(name, nolegend=nolegend)
 
-        self.func = parse(func) if isinstance(func, str) else func
+        self.y_func = parse(func) if isinstance(func, str) else func
         self.xmin = xmin
         self.xmax = xmax
         self.style = Style(**kwargs)
 
     def __repr__(self) -> str:
-        return f'Function with function: {self.func.__name__} - style "{self.style.style_name}"'
+        return f'Function with function: {self.y_func.__name__} - style "{self.style.style_name}"'
 
     def draw(self, ax: plt.Axes):
         """
@@ -70,5 +70,5 @@ class Function(BaseElement):
             and draws the resulting curve
         """
         x = np.linspace(self.xmin, self.xmax, 200)
-        y = [self.func(x_t) for x_t in x]
+        y = [self.y_func(x_t) for x_t in x]
         self._draw_curve(x, y, ax)

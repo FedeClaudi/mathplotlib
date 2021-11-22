@@ -9,12 +9,16 @@ axes.spines.top: False
 axes.autolimit_mode: round_numbers
 axes.grid: False
 
+
+grid.color: black
+grid.linewidth: .1
+
+legend.frameon: False
+
 xaxis.labellocation: right
 
 yaxis.labellocation: top
 
-grid.color: black
-grid.linewidth: .1
 
 xtick.color: 424242
 xtick.bottom: True

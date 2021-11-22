@@ -41,6 +41,7 @@ class BaseElement:
             lw=self.style.linewidth,
             label=self.legend,
             ls=self.style.linestyle,
+            clip_on=False,
         )
 
         # apply effects
@@ -48,15 +49,17 @@ class BaseElement:
             for line in lines:
                 self.outline(line)
 
-    def outline(self, *artists: plt.Artist):
+    def outline(self, *artists: plt.Artist, lw: float = None):
         """
             Applies an outline to a matplotlib artist with path effects
         """
         for artist in artists:
-            lw = artist.get_linewidth()
+            lw = lw or artist.get_linewidth()
             artist.set_path_effects(
                 [
-                    path_effects.Stroke(linewidth=lw + 2, foreground="black"),
-                    path_effects.Normal(),
+                    path_effects.withStroke(
+                        linewidth=lw + self.style.strokewwidth,
+                        foreground=self.style.strokecolor,
+                    ),
                 ]
             )
