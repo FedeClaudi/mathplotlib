@@ -12,7 +12,6 @@ class StatisticalDistribution(BaseElement):
         on scipy.stats distributions
     """
 
-    label_angle_factor: float = 0.75
     params: dict = dict()
 
     def __init__(

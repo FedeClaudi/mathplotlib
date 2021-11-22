@@ -36,32 +36,32 @@ text = annotations.Text(
 )
 
 # draw some text at a point along the sine and cosine curves
-text_on_sine = annotations.Text.on_curve(
-    sine,
-    "sine",
-    at=2,
-    outlined=True,
-    strokecolor="white",
-    strokewidth=5,
-    size=12,
-)
-text_on_cosine = annotations.Text.on_curve(
-    cosine,
-    "cosine",
-    at=1,
-    outlined=True,
-    strokecolor="white",
-    strokewidth=5,
-    size=12,
-)
+text_on_sine = annotations.Text.on_curve(sine, "sine", at=1,)
+text_on_cosine = annotations.Text.on_curve(cosine, "cosine", at=1,)
 
 
 # draw some annotations
-annot = annotations.Annotation(pi, 0, "zero point", x_shift=0.25, y_shift=+0.5)
+annot = annotations.Annotation(
+    pi,
+    0,
+    "zero points",
+    x_shift=0.25,
+    y_shift=+0.5,
+    additional_points=[(6.28, 0)],
+)
 
 annot_at_point = annotations.Annotation.at_curve(
     cosine, "A point on the cosine", at=3, y_shift=-0.5, size="large"
 )
 
 
-show(sine, cosine, text, text_on_sine, text_on_cosine, annot, annot_at_point)
+show(
+    sine,
+    cosine,
+    text,
+    text_on_sine,
+    text_on_cosine,
+    annot,
+    annot_at_point,
+    axes_equal=True,
+)

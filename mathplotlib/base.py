@@ -11,7 +11,6 @@ class BaseElement:
         Represents a base element (drawn object)
     """
 
-    label_angle_factor: float = 1
     style: Style = Style()
 
     def __init__(self, name: str = "base_element", nolegend: bool = False):
@@ -42,7 +41,7 @@ class BaseElement:
             lw=self.style.linewidth,
             label=self.legend,
             ls=self.style.linestyle,
-            clip_on=False,
+            clip_on=True,
         )
 
         # apply effects

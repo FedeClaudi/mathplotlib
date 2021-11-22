@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from typing import List, Tuple
 
 from mathplotlib.base import BaseElement
 from mathplotlib.style import Style
@@ -11,7 +12,11 @@ class Text(BaseElement):
     """
 
     on_curve_params = dict(
-        backgroundcolor="white", horizontal_alignment="center",
+        horizontal_alignment="center",
+        backgroundcolor=None,
+        outlined=True,
+        strokecolor="white",
+        strokewidth=5,
     )
 
     def __init__(
@@ -46,8 +51,18 @@ class Text(BaseElement):
             ha=self.horizontal_alignment,
             va=self.vertical_alignment,
             color=self.style.textcolor,
-            backgroundcolor=self.style.backgroundcolor,
+            alpha=self.style.alpha,
+            bbox=dict(
+                pad=2,
+                color=self.style.backgroundcolor,
+                joinstyle="round",
+                alpha=0.95,
+            ),
+            weight=self.style.fontweight,
         )
+
+        if self.style.backgroundcolor is None:
+            text_actor.set_bbox(dict(alpha=0))
 
         if self.style.outlined:
             self.outline(text_actor, lw=2)
@@ -67,13 +82,12 @@ class Text(BaseElement):
         # compute the angle of the curve at the point
         x1, x2 = at - 0.2, at + 0.2
         y1, y2 = y_func(x1), y_func(x2)
-        curve_angle = angle(x1, x2, y1, y2) * curve.label_angle_factor
+        curve_angle = angle(x1, x2, y1, y2)
         rotation = kwargs.pop("rotation", curve_angle)
 
         # get the color based on the curve
         color = kwargs.pop("textcolor", curve.style.linecolor)
         kwargs = update_with_default(kwargs, Text.on_curve_params)
-
         return Text(
             at, y_func(at), text, rotation=rotation, textcolor=color, **kwargs
         )
@@ -81,11 +95,13 @@ class Text(BaseElement):
 
 class Annotation(BaseElement):
     _default_arrow_params = dict(
-        arrowstyle="->",
-        connectionstyle="arc3,rad=-0.4",
-        shrinkA=6,
-        shrinkB=6,
+        arrowstyle="-|>",
+        connectionstyle="arc3,rad=-0.25",
+        shrinkA=4,
+        shrinkB=4,
         lw=2,
+        fc="w",
+        mutation_scale=20,
     )
 
     def __init__(
@@ -98,6 +114,7 @@ class Annotation(BaseElement):
         size: str = "medium",
         textcoords: str = "data",
         arrow_params: dict = None,
+        additional_points: List[Tuple[float, float]] = None,
         **kwargs,
     ):
 
@@ -107,6 +124,9 @@ class Annotation(BaseElement):
         # get/set arrow paramters
         if arrow_params is None:
             arrow_params = self._default_arrow_params.copy()
+        arrow_params = update_with_default(
+            arrow_params, self._default_arrow_params
+        )
         arrow_params["color"] = kwargs.pop("textcolor", self.style.textcolor)
 
         self.x, self.y = x, y
@@ -118,8 +138,10 @@ class Annotation(BaseElement):
         self.arrow_params["color"] = self.arrow_params.pop(
             "color", self.style.textcolor
         )
+        self.additional_points = additional_points
 
     def draw(self, ax: plt.Axes):
+        # draw arrow + add text
         ax.annotate(
             self.text,
             (self.x, self.y),
@@ -129,6 +151,20 @@ class Annotation(BaseElement):
             textcoords=self.textcoords,
             arrowprops=self.arrow_params,
         )
+
+        # add additional arrows
+        if self.additional_points is not None:
+            for xy in self.additional_points:
+                ax.annotate(
+                    self.text,
+                    xy,
+                    size=self.size,
+                    color=self.style.textcolor,
+                    xytext=(self.x + self.x_shift, self.y + self.y_shift),
+                    textcoords=self.textcoords,
+                    arrowprops=self.arrow_params,
+                    fontweight=0,  # make the text invisible
+                )
 
     @classmethod
     def at_curve(cls, curve: BaseElement, text: str, at: float = 1, **kwargs):

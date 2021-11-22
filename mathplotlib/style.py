@@ -1,18 +1,21 @@
 from myterial import grey_darker, black
 from loguru import logger
+from typing import Union, Optional
 
 blue_purple = "#a9a9cc"
 
 
 cartoon_defaults = dict(
-    backgroundcolor="white",
-    facecolor=blue_purple,  # inside of shape
+    alpha=1,
+    facecolor=blue_purple,
     facealpha=1,
-    linecolor=grey_darker,  # line
+    linecolor=grey_darker,
     linewidth=2,
     linestyle="-",
     strokecolor="k",
     strokewidth=2,
+    backgroundcolor=None,
+    fontweight="regular",
     textcolor="k",
     filled=True,
     outlined=False,
@@ -20,14 +23,16 @@ cartoon_defaults = dict(
 )
 
 minimal_defaults = dict(
-    backgroundcolor="white",
-    facecolor=blue_purple,  # inside of shape
+    alpha=1,
+    facecolor=blue_purple,
     facealpha=1,
-    linecolor=black,  # line
+    linecolor=black,
     linewidth=1,
     linestyle="-",
     strokecolor="k",
     strokewidth=2,
+    backgroundcolor=None,
+    fontweight="regular",
     textcolor="k",
     filled=False,
     outlined=False,
@@ -36,18 +41,20 @@ minimal_defaults = dict(
 
 
 class Style:
-    backgroundcolor: str = "white"
-    facecolor: str = blue_purple
-    facealpha: float = 1
-    linecolor: str = black
-    linewidth: float = 1
-    linestyle: str = "-"
-    strokecolor: str = "k"
-    strokewidth: int = 2
-    textcolor: str = "k"
-    filled: bool = False
-    outlined: bool = False
-    zorder: int = 1
+    alpha: float = 1
+    facecolor: str = blue_purple  # for shapes and shaded areas
+    facealpha: float = 1  # for shapes and shaded areas
+    linecolor: str = black  # for all lines
+    linewidth: float = 1  # for all lines
+    linestyle: str = "-"  # for all lines
+    strokecolor: str = "k"  # for outline of lines
+    strokewidth: int = 2  # for outline of lines
+    fontweight: Union[str, int] = "regular"  # for Text
+    textcolor: str = "k"  # for Text object
+    backgroundcolor: Optional[str] = None  # for Text object
+    filled: bool = False  # shade inside of shape
+    outlined: bool = False  # add colored outline
+    zorder: int = 1  # Z stack order
 
     def __init__(self, style: str = "cartoon", **kwargs: dict):
         """

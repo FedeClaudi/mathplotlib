@@ -6,7 +6,7 @@ A template to create repos supporting a python package
 ## shapes
 - [ ] rectangle
 - [ ] triangle
-
+- [ ] Line (including methods to point it at stuff and to specify by eq)
 
 ## distributions
 - [x] normal
@@ -17,14 +17,16 @@ A template to create repos supporting a python package
 - [x] from equation
 - [x] from python func
 
-
 ## styling
 - [x] better, cleaner styling
 - [x] cleaner code to get/apply style
-- [ ] more personalizatoin
+- [x] more personalizatoin
 - [x] fancy legends
 - [x] annotation
-- [ ] annotations multiple arrows (example on sine)
+- [x] annotations multiple arrows (example on sine)
+- [x] text no box by default + fix size for on-curve
+- [ ] text weight + other parameters
+- [ ] Mark
 
 ## Maths
 - [ ] vectors
@@ -33,6 +35,16 @@ A template to create repos supporting a python package
 
 ## Examples
 - [ ] figure layout
+- [x] Bayes
+- [ ] animations
+- [ ] axes grid rotation with affine2D
+
+## Animations
+- [ ] base elements
+- [ ] composite
+
+## 3D
+- [ ] surface
 
 ## figure
 - [x] canvas -> single axis

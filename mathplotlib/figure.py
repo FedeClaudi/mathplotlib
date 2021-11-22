@@ -8,10 +8,15 @@ from mathplotlib.utils import update_with_default
 
 
 class Canvas:
-    def __init__(self, ax: plt.Axes, axes_params: dict = dict()):
-
+    def __init__(
+        self,
+        ax: plt.Axes,
+        axes_params: dict = dict(),
+        axes_equal: bool = False,
+    ):
+        self.axes_equal = axes_equal
         self.ax = ax
-        ax.set(**axes_params)
+        self.axes_params = axes_params
 
         # initialize empty actors
         self.actors: List = []
@@ -34,26 +39,32 @@ class Canvas:
         self.ax.spines["left"].set_position(("data", 0))
 
         # draw axes as arrows
-        self.ax.plot(
-            1.005,
-            0,
-            ">",
-            color=grey_darker,
-            alpha=1,
-            zorder=100,
-            transform=self.ax.get_yaxis_transform(),
-            clip_on=False,
-        )
-        self.ax.plot(
-            0,
-            1.005,
-            "^",
-            color=grey_darker,
-            alpha=1,
-            zorder=100,
-            transform=self.ax.get_xaxis_transform(),
-            clip_on=False,
-        )
+        if not self.axes_equal:
+            self.ax.plot(
+                1.005,
+                0,
+                ">",
+                color=grey_darker,
+                alpha=1,
+                zorder=100,
+                transform=self.ax.get_yaxis_transform(),
+                clip_on=False,
+            )
+            self.ax.plot(
+                0,
+                1.005,
+                "^",
+                color=grey_darker,
+                alpha=1,
+                zorder=100,
+                transform=self.ax.get_xaxis_transform(),
+                clip_on=False,
+            )
+        else:
+            self.ax.axis("equal")
+
+        # set parameters
+        self.ax.set(**self.axes_params)
 
     def draw(self):
         for actor in self.actors:
@@ -70,6 +81,7 @@ class Figure:
         layout: str = "A",
         figsize: Tuple[float, float] = (10, 8),
         axes_params: dict = dict(),
+        axes_equal: bool = False,
         **kwargs,
     ):
         self.figure = plt.figure(figsize=figsize, **kwargs)
@@ -77,7 +89,9 @@ class Figure:
         self.canvases = dict()
         axes = self.figure.subplot_mosaic(layout)
         for ax_name, ax in axes.items():
-            self.canvases[ax_name] = Canvas(ax, axes_params=axes_params)
+            self.canvases[ax_name] = Canvas(
+                ax, axes_params=axes_params, axes_equal=axes_equal
+            )
 
     def __repr__(self) -> str:
         return f"Figure with {len(self.canvases)} Canvases"
