@@ -140,6 +140,97 @@ class Line(Curve2D):
             self.annotation.draw(ax)
 
 
+class Grid(BaseElement):
+    """
+        A grid of vertical and horizontal lines
+    """
+
+    def __init__(
+        self,
+        x0: float,
+        x1: float,
+        y0: float,
+        y1: float,
+        major_every: float = 2,
+        minor_every: Optional[float] = 1,
+        major_linewidth: float = 1,
+        minor_linewidth: float = 0.25,
+        major_kwargs: dict = dict(),
+        minor_kwargs: dict = dict(),
+        **kwargs,
+    ):
+        """
+            Creates a grid of horizontal and vertical thick and thin lines 
+        """
+        super().__init__()
+        self.lines = []
+
+        # create vertical lines
+        vmaj, vmin = self.get_ticks(x0, x1, major_every, minor_every)
+        self.lines.extend(
+            [
+                Line.vertical(
+                    x, linewidth=major_linewidth, **major_kwargs, **kwargs
+                )
+                for x in vmaj
+            ]
+        )
+        if vmin is not None:
+            self.lines.extend(
+                [
+                    Line.vertical(
+                        x, linewidth=minor_linewidth, **minor_kwargs, **kwargs
+                    )
+                    for x in vmin
+                ]
+            )
+
+        # create horizontal lines
+        hmaj, hmin = self.get_ticks(y0, y1, major_every, minor_every)
+        self.lines.extend(
+            [
+                Line.horizontal(
+                    y, linewidth=major_linewidth, **major_kwargs, **kwargs
+                )
+                for y in hmaj
+            ]
+        )
+        if hmin is not None:
+            self.lines.extend(
+                [
+                    Line.horizontal(
+                        y, linewidth=minor_linewidth, **minor_kwargs, **kwargs
+                    )
+                    for y in hmin
+                ]
+            )
+
+    @staticmethod
+    def get_ticks(
+        p0: float, p1: float, major_every: float, minor_every: Optional[float]
+    ) -> Tuple[np.ndarray, np.ndarray]:
+        """
+            Computes the position of minor and major lines
+        """
+        majors = np.arange(p0, p1 + 1, major_every)
+        if minor_every is None:
+            minors = None
+        else:
+            minors = np.arange(
+                p0 + minor_every, p1 - minor_every + 1, minor_every
+            )
+
+            # remove overlaps
+            minors = np.array([m for m in minors if m not in majors])
+
+        return majors, minors
+
+    def draw(self, ax: plt.Axes):
+        # draw all lines
+        for line in self.lines:
+            line.draw(ax)
+
+
 class Circle(BaseElement):
     def __init__(
         self,

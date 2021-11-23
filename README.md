@@ -3,6 +3,8 @@ A template to create repos supporting a python package
 
 
 # TODO
+- [ ] figure set each axis params more easily
+
 ## shapes
 - [ ] rectangle
 - [ ] triangle
