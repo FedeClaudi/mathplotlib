@@ -138,9 +138,12 @@ def show(
     legend: bool = False,
     legend_kwargs: dict = dict(),
     axes_equal: bool = False,
+    axes_params: dict = dict(),
     **kwargs,
 ) -> Figure:
-    fig = Figure(layout="A", axes_equal=axes_equal, **kwargs)
+    fig = Figure(
+        layout="A", axes_equal=axes_equal, axes_params=axes_params, **kwargs
+    )
     fig.add_to("A", *actors)
     fig.show(legend=legend, legend_kwargs=legend_kwargs)
     return fig

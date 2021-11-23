@@ -89,11 +89,13 @@ class Curve2D(BaseElement):
         y1, y2 = self.y_func(x1), self.y_func(x2)  # type: ignore
         return angle(x1, x2, y1, y2)
 
-    def annotate(self, at: float = 1, **kwargs) -> BaseElement:
+    def annotate(
+        self, at: float = 1, text: Optional[str] = None, **kwargs
+    ) -> BaseElement:
         """
             Uses a Text annotation to draw its own legend on itself
         """
         self.annotation = mathplotlib.annotations.Text.on_curve(
-            self, self.legend, at=at, **kwargs
+            self, text or self.legend, at=at, **kwargs
         )
         return self
