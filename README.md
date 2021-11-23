@@ -8,7 +8,7 @@ A template to create repos supporting a python package
 ## shapes
 - [ ] rectangle
 - [ ] triangle
-- [ ] Line (including methods to point it at stuff and to specify by eq)
+- [x] Line (including methods to point it at stuff and to specify by eq)
 
 ## distributions
 - [x] normal

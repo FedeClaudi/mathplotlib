@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 from mathplotlib.base import BaseElement, Curve2D
 from mathplotlib.style import Style
@@ -58,7 +58,7 @@ class Text(BaseElement):
                 joinstyle="round",
                 alpha=0.95,
             ),
-            weight=self.style.fontweight,
+            fontweight=self.style.fontweight,
             zorder=self.style.zorder,
         )
 
@@ -110,7 +110,7 @@ class Annotation(BaseElement):
         text: str,
         x_shift: float = 1,
         y_shift: float = 1,
-        size: str = "medium",
+        size: Union[int, str] = "medium",
         textcoords: str = "data",
         arrow_params: dict = None,
         additional_points: List[Tuple[float, float]] = None,
@@ -141,30 +141,38 @@ class Annotation(BaseElement):
 
     def draw(self, ax: plt.Axes):
         # draw arrow + add text
-        ax.annotate(
-            self.text,
-            (self.x, self.y),
-            size=self.size,
-            color=self.style.textcolor,
-            xytext=(self.x + self.x_shift, self.y + self.y_shift),
-            textcoords=self.textcoords,
-            arrowprops=self.arrow_params,
-            zorder=self.style.zorder,
-        )
+        actors = [
+            ax.annotate(
+                self.text,
+                (self.x, self.y),
+                size=self.size,
+                color=self.style.textcolor,
+                xytext=(self.x + self.x_shift, self.y + self.y_shift),
+                textcoords=self.textcoords,
+                arrowprops=self.arrow_params,
+                zorder=self.style.zorder,
+            )
+        ]
 
         # add additional arrows
         if self.additional_points is not None:
             for xy in self.additional_points:
-                ax.annotate(
-                    self.text,
-                    xy,
-                    size=self.size,
-                    color=self.style.textcolor,
-                    xytext=(self.x + self.x_shift, self.y + self.y_shift),
-                    textcoords=self.textcoords,
-                    arrowprops=self.arrow_params,
-                    fontweight=0,  # make the text invisible
+                actors.append(
+                    ax.annotate(
+                        self.text,
+                        xy,
+                        size=self.size,
+                        color=self.style.textcolor,
+                        xytext=(self.x + self.x_shift, self.y + self.y_shift),
+                        textcoords=self.textcoords,
+                        arrowprops=self.arrow_params,
+                        fontweight=0,  # make the text invisible
+                    )
                 )
+
+        if self.style.outlined:
+            for actor in actors:
+                self.outline(actor, lw=2)
 
     @classmethod
     def at_curve(cls, curve: BaseElement, text: str, at: float = 1, **kwargs):

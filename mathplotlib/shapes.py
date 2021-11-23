@@ -132,6 +132,7 @@ class Line(Curve2D):
             linestyle=self.style.linestyle,
             color=self.style.linecolor,
             zorder=self.style.zorder,
+            alpha=self.style.alpha,
             antialiased=True,
         )
 

@@ -70,6 +70,7 @@ class Curve2D(BaseElement):
             clip_on=True,
             zorder=self.style.zorder,
             antialiased=True,
+            alpha=self.style.alpha,
         )
 
         # apply effects
@@ -90,12 +91,17 @@ class Curve2D(BaseElement):
         return angle(x1, x2, y1, y2)
 
     def annotate(
-        self, at: float = 1, text: Optional[str] = None, **kwargs
+        self,
+        at: float = 1,
+        text: Optional[str] = None,
+        zorder: Optional[int] = None,
+        **kwargs,
     ) -> BaseElement:
         """
             Uses a Text annotation to draw its own legend on itself
         """
+        zorder = zorder or self.style.zorder + 1
         self.annotation = mathplotlib.annotations.Text.on_curve(
-            self, text or self.legend, at=at, **kwargs
+            self, text or self.legend, at=at, zorder=zorder, **kwargs
         )
         return self

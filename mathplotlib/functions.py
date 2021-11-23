@@ -44,6 +44,7 @@ class Function(mhplt.base.Curve2D):
         xmin: float = 0,
         xmax: float = 1,
         nolegend: bool = False,
+        n_draw_points: int = 200,
         **kwargs,
     ):
         """
@@ -59,6 +60,7 @@ class Function(mhplt.base.Curve2D):
         self.xmin = xmin
         self.xmax = xmax
         self.style = mhplt.style.Style(**kwargs)
+        self.n_draw_points = n_draw_points
 
     def __repr__(self) -> str:
         return f'Function with function: "{self.name}" - style "{self.style.style_name}"'
@@ -68,6 +70,6 @@ class Function(mhplt.base.Curve2D):
             Applies the mathematical function to a set of points
             and draws the resulting curve
         """
-        x = np.linspace(self.xmin, self.xmax, 200)
+        x = np.linspace(self.xmin, self.xmax, self.n_draw_points)
         y = [self.y_func(x_t) for x_t in x]
         self._draw_curve(x, y, ax)
